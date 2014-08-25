@@ -2,6 +2,24 @@
     "name": "slopjong/docklet",
     "description": "Docker client. Simply a PHP docker client.",
     "require": {
-        "php": ">=5.3.0"
-    }
+        "php": ">=5.3.0",
+        "zendframework/zend-uri": "dev-master",
+        "zendframework/zend-http": "dev-master",
+        "stage1/docker-php": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Docklet\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/slopjong/Component_ZendUri"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/slopjong/Component_ZendHttp"
+        }
+    ]
 }
