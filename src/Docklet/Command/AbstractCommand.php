@@ -46,7 +46,7 @@ class AbstractCommand extends Request implements CommandInterface
      */
     public function postExecute(Response $response)
     {
-        return $response->getContent();
+        return $response->getBody();
     }
 
     protected function setCommand($commandString)
