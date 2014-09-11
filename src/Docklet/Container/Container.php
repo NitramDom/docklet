@@ -28,8 +28,12 @@ class Container
      * @param boolean $interactive
      * @param boolean $sigProxy
      */
-    public function __construct($image = '', $command = '', $ttyMode = false, $interactive = false, $sigProxy = true)
+    public function __construct($image, $command = '', $ttyMode = false, $interactive = false, $sigProxy = true)
     {
+        if (! $image) {
+            trigger_error('No image provided.');
+        }
+
         $this->image = $image;
         $this->command = $command;
         $this->ttyMode = $ttyMode;
@@ -194,7 +198,10 @@ class Container
         // convert the json to an associative array
         $data = json_decode($json, true);
 
-        $container = new Container();
+        // suppress the user notice, we will set the image
+        // during the hydration
+        $container = @new Container('');
+        
         return (new Hydrator())->hydrate($data, $container);
     }
 }
