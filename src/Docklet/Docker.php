@@ -19,6 +19,7 @@ class Docker extends Client
 {
     protected $host;
     protected $version;
+    protected static $instance = null;
 
     public function __construct($host = '')
     {
@@ -40,6 +41,14 @@ class Docker extends Client
         $json = $this->exec(new Version());
         $versions = json_decode($json);
         $this->version = 'v'. $versions->ApiVersion;
+
+        // let the user know if there's already an instance, chances are
+        // that he actually wants to use getInstance()
+        if (static::$instance) {
+            trigger_error('Another docker instance already exists. You maybe want to use getInstance()');
+        }
+
+        static::$instance = $this;
     }
 
     public function exec(CommandInterface $command)
@@ -63,5 +72,21 @@ class Docker extends Client
         // a higher application level. As of now ACL is not yet supported.
 
         return $command->postExecute($response);
+    }
+
+    /**
+     * Returns the last created docker client. If there's none yet a new
+     * instance will be created.
+     *
+     * @param string $host
+     *
+     * @return null
+     */
+    public static function getInstance($host = '')
+    {
+        if (! static::$instance) {
+            static::$instance = new Docker($host);
+        }
+        return static::$instance;
     }
 } 
