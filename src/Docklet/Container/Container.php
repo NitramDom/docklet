@@ -12,7 +12,8 @@ namespace Docklet\Container;
 
 class Container
 {
-    protected $command = '';
+    protected $commands = array();
+    protected $exposedPorts = array();
     protected $host = '';
     protected $id = '';
     protected $image = '';
@@ -20,6 +21,7 @@ class Container
     protected $name = '';
     protected $sigProxy = true;
     protected $ttyMode = false;
+    protected $volumes = array();
 
     /**
      * @param string  $image
@@ -35,27 +37,30 @@ class Container
         }
 
         $this->image = $image;
-        $this->command = $command;
+        $this->commands[] = $command;
         $this->ttyMode = $ttyMode;
         $this->interactive = $interactive;
         $this->sigProxy = $sigProxy;
     }
 
     /**
-     * @return string
+     * Get a list of specified commands.
+     * @return array
      */
-    public function getCommand()
+    public function getCommands()
     {
-        return $this->command;
+        return $this->commands;
     }
 
     /**
+     * Adds a new command to the command list.
+     *
      * @param string $command
      * @return $this
      */
     public function setCommand($command)
     {
-        $this->command = $command;
+        $this->commands[] = $command;
         return $this;
     }
 
@@ -150,6 +155,24 @@ class Container
     }
 
     /**
+     * @return array
+     */
+    public function getExposedPorts()
+    {
+        return $this->exposedPorts;
+    }
+
+    /**
+     * @param string $port
+     * @return $this
+     */
+    public function addExposedPort($port)
+    {
+        $this->exposedPorts[] = $port;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getSigProxy()
@@ -185,14 +208,47 @@ class Container
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getVolumes()
+    {
+        return $this->volumes;
+    }
+
+    /**
+     * Adds a new command to the command list.
+     *
+     * @param string $volume
+     * @return $this
+     */
+    public function setVolume($volume)
+    {
+        $this->volumes[] = $volume;
+        return $this;
+    }
+
     /****************************************************************/
 
+    /**
+     * Returns this entity as a JSON.
+     *
+     * @return string
+     */
     public function toJson()
     {
         $data = (new Hydrator())->extract($this);
         return json_encode($data);
     }
 
+    /**
+     * Returns a container object. There's no internal implementation yet
+     * for the deserialization and thus an empty container will be returned.
+     *
+     * @param $json
+     *
+     * @return Container
+     */
     public function fromJson($json)
     {
         // convert the json to an associative array
