@@ -9,6 +9,7 @@
 
 namespace Docklet\Command;
 
+use Docklet\Container\Container;
 use Zend\Http\Response;
 
 /**
