@@ -11,11 +11,15 @@ namespace Docklet;
 
 
 use Docklet\Command\CommandInterface;
+use Docklet\Command\Images;
+use Docklet\Command\Ps;
+use Docklet\Command\Run;
 use Docklet\Command\Version;
+use Docklet\Container\Container;
 use Zend\Http\Client;
 use Zend\Http\Response;
 
-class Docker extends Client
+class Docker extends Client implements DockerInterface
 {
     protected $host;
     protected $version;
@@ -74,6 +78,9 @@ class Docker extends Client
         return $command->postExecute($response);
     }
 
+    //****************************************************************
+    // Below are the command proxy functions that are considered implemented/stable.
+
     /**
      * Returns the last created docker client. If there's none yet a new
      * instance will be created.
@@ -89,4 +96,24 @@ class Docker extends Client
         }
         return static::$instance;
     }
-} 
+
+    public function images()
+    {
+        return $this->exec(new Images());
+    }
+
+    public function ps()
+    {
+        return $this->exec(new Ps());
+    }
+
+    public function run(Container $container)
+    {
+        return $this->exec(new Run($container));
+    }
+
+    public function version()
+    {
+        return $this->exec(new Version());
+    }
+}
