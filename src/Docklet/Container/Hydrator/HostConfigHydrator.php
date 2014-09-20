@@ -10,22 +10,30 @@
 namespace Docklet\Container\Hydrator;
 
 
+use Docklet\Container\HostConfig;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
 class HostConfigHydrator extends AbstractHydrator
 {
     protected $template = <<<JSON
     {
-        "HostConfig": {
-            "Binds": null,
-            "ContainerIDFile": "",
-            "LxcConf": [],
-            "Privileged": false,
-            "PortBindings": {},
-            "Links": [],
-            "PublishAllPorts": false,
-            "CapAdd": [],
-            "CapDrop": []
+        "Binds": null,
+        "ContainerIDFile": "",
+        "LxcConf": [],
+        "Privileged": false,
+        "PortBindings": {},
+        "Links": null,
+        "PublishAllPorts": false,
+        "Dns": null,
+        "DnsSearch": null,
+        "VolumesFrom": null,
+        "Devices": [],
+        "NetworkMode": "bridge",
+        "CapAdd": null,
+        "CapDrop": null,
+        "RestartPolicy": {
+            "Name": "",
+            "MaximumRetryCount": 0
         }
     }
 JSON;
@@ -45,13 +53,19 @@ JSON;
         $stdObj = json_decode($this->template);
 
         $stdObj->Binds = $hostConfig->getBinds();
-        $stdObj->ContainerIdFile = $hostConfig->getContainerIdFile();
+        $stdObj->ContainerIDFile = $hostConfig->getContainerIdFile();
         $stdObj->LxcConf = $hostConfig->getLxcConf();
         $stdObj->Privileged = $hostConfig->getPrivileged();
         $stdObj->PortBindings = $hostConfig->getPortBindings();
-        $stdObj->PublisAllPorts = $hostConfig->getPublishAll();
-        $stdObj->CapAdd = $hostConfig->getCapAdd();
-        $stdObj->CapDrop = $hostConfig->getCapDrop();
+        $stdObj->PublishAllPorts = $hostConfig->getPublishAll();
+
+        if (count($hostConfig->getCapAdd())) {
+            $stdObj->CapAdd = $hostConfig->getCapAdd();
+        }
+
+        if (count($hostConfig->getCapDrop())) {
+            $stdObj->CapDrop = $hostConfig->getCapDrop();
+        }
 
         return (array) $stdObj;
     }
