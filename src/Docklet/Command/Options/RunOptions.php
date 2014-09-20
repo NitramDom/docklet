@@ -33,6 +33,7 @@ class RunOptions
     public $interactive = false;
     public $image = '';
     public $command = '';
+    public $environmentVariables = array();
     public $volumes = array();
     public $portBindings = array();
     public $returnContainer = false;
@@ -64,6 +65,17 @@ class RunOptions
             'HostPort' => $hostPort
         );
 
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function environmentVariable($name, $value)
+    {
+        $this->environmentVariables[] = "$name=$value";
         return $this;
     }
 }

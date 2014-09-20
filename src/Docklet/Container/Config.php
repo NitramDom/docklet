@@ -17,6 +17,7 @@ class Config
     protected $attachStdOut = false;
     protected $attachStdErr = false;
     protected $commands = array();
+    protected $environmentVars = array();
     protected $exposedPorts = array();
     protected $host = '';
     protected $image = '';
@@ -84,6 +85,25 @@ class Config
             return;
         }
         $this->commands[] = $command;
+        return $this;
+    }
+
+    /**
+     * @return array Environment variables to be set in the container.
+     */
+    public function getEnvironmentVars()
+    {
+        return $this->environmentVars;
+    }
+
+    /**
+     * Set environment variables.
+     * @param array $env
+     * @return $this;
+     */
+    public function setEnvironmentVars(array $env)
+    {
+        $this->environmentVars = $env;
         return $this;
     }
 

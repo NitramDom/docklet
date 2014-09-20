@@ -46,6 +46,8 @@ class Run extends AbstractCommand
         $config = new Config($options->image, $options->command);
         $hostConfig = new HostConfig();
 
+        $config->setEnvironmentVars($options->environmentVariables);
+
         foreach ($options->portBindings as $key => $binding) {
             $hostConfig->addPortBinding($key, $binding[0]);
             $config->addExposedPort($key);

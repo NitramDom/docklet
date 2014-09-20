@@ -63,6 +63,7 @@ JSON;
         $stdObj->ExposedPorts = $config->getExposedPorts();
         $stdObj->AttachStdout = $config->getAttachStdOut();
         $stdObj->AttachStderr = $config->getAttachStdErr();
+        $stdObj->Env = $config->getEnvironmentVars();
 
         return (array) $stdObj;
     }
