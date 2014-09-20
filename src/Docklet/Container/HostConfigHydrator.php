@@ -24,8 +24,8 @@ class HostConfigHydrator extends AbstractHydrator
             "PortBindings": {},
             "Links": [],
             "PublishAllPorts": false,
-            "CapAdd: [],
-            "CapDrop: []
+            "CapAdd": [],
+            "CapDrop": []
         }
     }
 JSON;
@@ -43,6 +43,7 @@ JSON;
         $hostConfig = $hostConfig;
 
         $stdObj = json_decode($this->template);
+
         $stdObj->Binds = $hostConfig->getBinds();
         $stdObj->ContainerIdFile = $hostConfig->getContainerIdFile();
         $stdObj->LxcConf = $hostConfig->getLxcConf();
