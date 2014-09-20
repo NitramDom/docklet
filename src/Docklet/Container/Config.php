@@ -27,8 +27,14 @@ class Config
 
         $this->setImage($image);
 
-        if ($command) {
+        if ($command && is_string($command)) {
             $this->addCommand($command);
+        }
+
+        if ($command && is_array($command)) {
+            foreach ($command as $cmd) {
+                $this->addCommand($cmd);
+            }
         }
     }
 
@@ -44,11 +50,15 @@ class Config
     /**
      * Adds a new command to the command list.
      *
-     * @param string $command
+     * @param string|array $command Single command string or an array with the actual command and its arguments
      * @return $this
      */
     public function addCommand($command)
     {
+        if (!is_string($command)) {
+            trigger_error("Command not a string");
+            return;
+        }
         $this->commands[] = $command;
         return $this;
     }
