@@ -25,8 +25,9 @@ class AbstractCommand extends Request implements CommandInterface
     public function __construct()
     {
         // turn the command class into the actual docker command
+        $clazz = explode("\\", get_class($this));
         $this->command = strtolower(
-            array_pop(explode("\\", get_class($this)))
+            array_pop($clazz)
         );
     }
 
