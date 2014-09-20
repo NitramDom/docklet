@@ -55,7 +55,8 @@ class Docker extends Client implements DockerInterface
 
         $this->setOptions(array(
             'maxredirects' => 0,
-            'timeout'      => 30
+            'timeout'      => 30,
+            'useragent'    => 'Docklet',
         ));
 
         $json = $this->exec(new Version(), true);
