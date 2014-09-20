@@ -11,6 +11,7 @@ namespace Docklet\Command;
 
 
 use Docklet\Container\Container;
+use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Http\Response;
 
@@ -34,6 +35,7 @@ class Create extends AbstractCommand
     {
         $this->container = $container;
         $this->setMethod(Request::METHOD_POST);
+        $this->setHeaders((new Headers())->fromString('Content-Type: application/json'));
         $this->setCommand('containers/create');
         $this->setContent($container->getConfig()->toJson());
     }

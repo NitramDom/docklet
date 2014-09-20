@@ -9,6 +9,7 @@
 
 namespace Docklet\Command;
 
+
 use Docklet\Container\Config;
 use Docklet\Container\Container;
 use Docklet\Container\HostConfig;
@@ -28,9 +29,6 @@ class Run extends AbstractCommand
 
     /** @var Create */
     protected $create = null;
-
-//    /** @var Start */
-//    protected $start = null;
 
     public function __construct(Config $config)
     {
@@ -62,17 +60,12 @@ class Run extends AbstractCommand
         /** @var Container $container */
         $this->container = $this->create->postExecute($response, true);
 
-        // @todo: start the container
-        // @todo: return the container ID if in detached mode
+        $response = $this->start();
 
-        $start = new Start($this->container);
-
-        /** @var Docker $docker */
-        $docker = Docker::getInstance();
-        $request = $docker->buildRequest($start);
-
-        /** @var Response $response */
-        $response = $docker->dispatch($request);
+        if ($response->getStatusCode() === Response::STATUS_CODE_204) {
+            $response = $this->attach();
+            $this->container->addLastCommandResult($response->getContent());
+        }
 
         if ($returnContainer) {
             return $this->container;
@@ -80,4 +73,42 @@ class Run extends AbstractCommand
             return $this->container->toJson();
         }
     }
-} 
+
+    /**
+     * Start the container.
+     *
+     * @return Response
+     */
+    protected function start()
+    {
+        /** @var Docker $docker */
+        $docker = Docker::getInstance();
+
+        $start = new Start($this->container);
+        $request = $docker->buildRequest($start);
+
+        /** @var Response $response */
+        $response = $docker->dispatch($request);
+
+        return $response;
+    }
+
+    /**
+     * Attach to the container and get the stdout output.
+     *
+     * @return Response
+     */
+    protected function attach()
+    {
+        /** @var Docker $docker */
+        $docker = Docker::getInstance();
+
+        $attach = new Attach($this->container);
+        $request = $docker->buildRequest($attach);
+
+        /** @var Response $response */
+        $response = $docker->dispatch($request);
+
+        return $response;
+    }
+}
