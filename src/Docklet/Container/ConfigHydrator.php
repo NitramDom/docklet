@@ -16,24 +16,29 @@ class ConfigHydrator extends AbstractHydrator
 {
     protected $template = <<<JSON
 {
-    "Hostname":"",
-    "User":"",
-    "Memory":0,
-    "MemorySwap":0,
-    "AttachStdin":false,
-    "AttachStdout":true,
-    "AttachStderr":true,
-    "PortSpecs":null,
-    "Tty":false,
-    "OpenStdin":false,
-    "StdinOnce":false,
-    "Env":null,
-    "Cmd":[],
-    "Image":"",
-    "Volumes":{},
-    "WorkingDir":"",
-    "DisableNetwork": false,
-    "ExposedPorts":{}
+    "Hostname": "",
+    "Domainname": "",
+    "User": "",
+    "Memory": 0,
+    "MemorySwap": 0,
+    "CpuShares": 0,
+    "Cpuset": "",
+    "AttachStdin": false,
+    "AttachStdout": true,
+    "AttachStderr": true,
+    "PortSpecs": null,
+    "ExposedPorts": {},
+    "Tty": false,
+    "OpenStdin": false,
+    "StdinOnce": false,
+    "Env": [],
+    "Cmd": [""],
+    "Image": "",
+    "Volumes": {},
+    "WorkingDir": "",
+    "Entrypoint": null,
+    "NetworkDisabled": false,
+    "OnBuild": null
 }
 JSON;
 
@@ -50,7 +55,7 @@ JSON;
         $config = $config;
 
         $stdobj = json_decode($this->template);
-        $stdobj->HostName = $config->getHost();
+        $stdobj->Hostname = $config->getHost();
         $stdobj->Image = $config->getImage();
         $stdobj->Tty = $config->getTtyMode();
         $stdobj->Cmd = $config->getCommands();
