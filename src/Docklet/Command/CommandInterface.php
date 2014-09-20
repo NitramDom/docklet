@@ -30,8 +30,9 @@ interface CommandInterface
      * if a command provides arguments that are not used for the actual
      * Docker API but for local filtering or other tasks.
      *
-     * @param Response $response
+     * @param Response  $response
+     * @param boolean   $returnContainer
      * @return string
      */
-    public function postExecute(Response $response);
+    public function postExecute(Response $response, $returnContainer = false);
 } 

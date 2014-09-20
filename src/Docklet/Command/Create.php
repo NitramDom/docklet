@@ -47,7 +47,10 @@ class Create extends AbstractCommand
         return $this;
     }
 
-    public function postExecute(Response $response)
+    /**
+     * @inheritdoc
+     */
+    public function postExecute(Response $response, $returnContainer = false)
     {
         if ($obj = json_decode(parent::postExecute($response))) {
             $this->container->setId($obj->Id);

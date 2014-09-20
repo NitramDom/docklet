@@ -57,7 +57,7 @@ class Search extends AbstractCommand
     /**
      * @inheritdoc
      */
-    public function postExecute(Response $response)
+    public function postExecute(Response $response, $returnContainer = false)
     {
         $content = parent::postExecute($response);
 

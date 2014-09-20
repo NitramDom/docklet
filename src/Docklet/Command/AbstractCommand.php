@@ -44,7 +44,7 @@ class AbstractCommand extends Request implements CommandInterface
     /**
      * @inheritdoc
      */
-    public function postExecute(Response $response)
+    public function postExecute(Response $response, $returnContainer = false)
     {
         return $response->getBody();
     }
