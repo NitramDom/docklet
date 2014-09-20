@@ -27,7 +27,6 @@ class Stop extends AbstractCommand
     {
         $this->setMethod(Request::METHOD_POST);
         $this->setCommand('containers/' . $id . '/stop');
-        $this->setHeaders((new Headers())->fromString('Content-Type: application/json'));
         $this->getUri()->setQuery(array('t' => $wait));
     }
 
