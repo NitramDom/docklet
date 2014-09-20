@@ -9,6 +9,7 @@
 
 namespace Docklet\Command;
 
+use Docklet\Container\Config;
 use Docklet\Container\Container;
 use Zend\Http\Response;
 
@@ -22,8 +23,10 @@ class Run extends AbstractCommand
 {
     protected $container = null;
 
-    public function __construct(Container $container)
+    public function __construct(Config $config)
     {
+        $container = new Container('');
+        $container->setConfig($config);
         $this->container = $container;
     }
 

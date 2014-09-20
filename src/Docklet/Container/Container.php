@@ -12,16 +12,31 @@ namespace Docklet\Container;
 
 class Container
 {
-    protected $commands = array();
-    protected $exposedPorts = array();
-    protected $host = '';
     protected $id = '';
+    protected $created = '';
+    protected $path = '';
+    protected $args = array();
+
+    /** @var Config */
+    protected $config = null;
+
+    /** @var State   */
+    protected $state = null;
+
     protected $image = '';
+
+    /** @var NetworkSettings */
+    protected $networkSettings = null;
+
+    protected $sysInitPath = '';
+    protected $resolvConfPath = '';
+    protected $volumes = array();
+
+    /****************************************************************/
+
     protected $interactive = false;
     protected $name = '';
     protected $sigProxy = true;
-    protected $ttyMode = false;
-    protected $volumes = array();
 
     /**
      * @param string  $image
@@ -44,41 +59,20 @@ class Container
     }
 
     /**
-     * Get a list of specified commands.
-     * @return array
+     * @return Config
      */
-    public function getCommands()
+    public function getConfig()
     {
-        return $this->commands;
+        return $this->config;
     }
 
     /**
-     * Adds a new command to the command list.
-     *
-     * @param string $command
+     * @param Config $config
      * @return $this
      */
-    public function setCommand($command)
+    public function setConfig(Config $config)
     {
-        $this->commands[] = $command;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-
-    /**
-     * @param string $host
-     * @return $this
-     */
-    public function setHost($host)
-    {
-        $this->host = $host;
+        $this->config = $config;
         return $this;
     }
 
@@ -154,23 +148,7 @@ class Container
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getExposedPorts()
-    {
-        return $this->exposedPorts;
-    }
 
-    /**
-     * @param string $port
-     * @return $this
-     */
-    public function addExposedPort($port)
-    {
-        $this->exposedPorts[] = $port;
-        return $this;
-    }
 
     /**
      * @return bool
@@ -187,24 +165,6 @@ class Container
     public function setSigProxy($sigProxy)
     {
         $this->sigProxy = $sigProxy;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getTtyMode()
-    {
-        return $this->ttyMode;
-    }
-
-    /**
-     * @param boolean $ttyMode
-     * @return $this
-     */
-    public function setTtyMode($ttyMode)
-    {
-        $this->ttyMode = $ttyMode;
         return $this;
     }
 

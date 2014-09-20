@@ -12,7 +12,7 @@ namespace Docklet\Container;
 
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
-class Hydrator extends AbstractHydrator
+class ConfigHydrator extends AbstractHydrator
 {
     protected $template = <<<JSON
 {
@@ -38,22 +38,22 @@ class Hydrator extends AbstractHydrator
 JSON;
 
     /**
-     * Extract values from a container.
+     * Extract values from a config.
      *
-     * @param  object $container
+     * @param  object $config
      *
      * @return array
      */
-    public function extract($container)
+    public function extract($config)
     {
-        /** @var Container $container */
-        $container = $container;
+        /** @var Config $config */
+        $config = $config;
 
         $stdobj = json_decode($this->template);
-        $stdobj->HostName = $container->getHost();
-        $stdobj->Image = $container->getImage();
-        $stdobj->Tty = $container->getTtyMode();
-        $stdobj->Cmd = $container->getCommands();
+        $stdobj->HostName = $config->getHost();
+        $stdobj->Image = $config->getImage();
+        $stdobj->Tty = $config->getTtyMode();
+        $stdobj->Cmd = $config->getCommands();
         return (array) $stdobj;
     }
 
@@ -62,13 +62,13 @@ JSON;
      * has no internal implementation and will return the container unmodified.
      *
      * @param  array  $data
-     * @param  object $container
+     * @param  object $config
      *
      * @return object
      */
-    public function hydrate(array $data, $container)
+    public function hydrate(array $data, $config)
     {
         // TODO: Implement hydrate() method.
-        return $container;
+        return $config;
     }
 }

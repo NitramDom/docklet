@@ -15,6 +15,7 @@ use Docklet\Command\Images;
 use Docklet\Command\Ps;
 use Docklet\Command\Run;
 use Docklet\Command\Version;
+use Docklet\Container\Config;
 use Docklet\Container\Container;
 use Zend\Http\Client;
 use Zend\Http\Response;
@@ -107,9 +108,9 @@ class Docker extends Client implements DockerInterface
         return $this->exec(new Ps());
     }
 
-    public function run(Container $container)
+    public function run(Config $config)
     {
-        return $this->exec(new Run($container));
+        return $this->exec(new Run($config));
     }
 
     public function version()

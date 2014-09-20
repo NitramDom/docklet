@@ -7,15 +7,18 @@
  * @license   http://slopjong.github.io/docklet/license/new-bsd New BSD License
  */
 
-namespace Docklet;
+namespace Docklet\Container;
 
 
-use Docklet\Container\Config;
-
-interface DockerInterface
+class State
 {
-    public function images();
-    public function ps();
-    public function run(Config $config);
-    public function version();
-} 
+/*
+  "State": {
+     "Running": false,
+     "Pid": 0,
+     "ExitCode": 0,
+     "StartedAt": "2013-05-07T14:51:42.087658+02:01360",
+     "Ghost": false
+ },
+ */
+}

@@ -12,6 +12,7 @@ namespace Docklet\Command;
 
 use Docklet\Container\Container;
 use Zend\Http\Request;
+use Zend\Http\Response;
 
 /**
  * Class Create
@@ -34,7 +35,7 @@ class Create extends AbstractCommand
         $this->container = $container;
         $this->setMethod(Request::METHOD_POST);
         $this->setCommand('containers/create');
-        $this->setContent($container->toJson());
+        $this->setContent($container->getConfig()->toJson());
     }
 
     /**
@@ -44,5 +45,15 @@ class Create extends AbstractCommand
     {
         $this->getUri()->setPath($this->command);
         return $this;
+    }
+
+    public function postExecute(Response $response)
+    {
+        if ($obj = json_decode(parent::postExecute($response))) {
+            $this->container->setId($obj->Id);
+            return $this->container->toJson();
+        }
+
+        // @todo: throw an exception, we should have got the ID here
     }
 }

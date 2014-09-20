@@ -7,15 +7,18 @@
  * @license   http://slopjong.github.io/docklet/license/new-bsd New BSD License
  */
 
-namespace Docklet;
+namespace Docklet\Container;
 
 
-use Docklet\Container\Config;
-
-interface DockerInterface
+class NetworkSettings
 {
-    public function images();
-    public function ps();
-    public function run(Config $config);
-    public function version();
-} 
+/*
+ "NetworkSettings": {
+         "IpAddress": "",
+         "IpPrefixLen": 0,
+         "Gateway": "",
+         "Bridge": "",
+         "PortMapping": null
+ },
+ */
+}
