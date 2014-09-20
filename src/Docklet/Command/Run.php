@@ -95,7 +95,7 @@ class Run extends AbstractCommand
             // @todo throw an exception
         }
 
-        if ($returnContainer) {
+        if ($returnContainer || $this->options->returnContainer) {
             return $this->container;
         } else {
             return $this->container->toJson();

@@ -23,6 +23,7 @@ use Zend\Debug\Debug;
  * @method RunOptions image(string $image)
  * @method RunOptions command(mixed $command)
  * @method RunOptions volumes(array $volumes)
+ * @method RunOptions returnContainer(boolean $flag)
  *
  */
 class RunOptions
@@ -34,6 +35,7 @@ class RunOptions
     public $command = '';
     public $volumes = array();
     public $portBindings = array();
+    public $returnContainer = false;
 
     public function __call($method, $params)
     {
