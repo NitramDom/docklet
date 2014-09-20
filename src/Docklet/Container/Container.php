@@ -20,6 +20,9 @@ class Container
     /** @var Config */
     protected $config = null;
 
+    /** @var HostConfig */
+    protected $hostConfig = null;
+
     /** @var State   */
     protected $state = null;
 
@@ -73,6 +76,24 @@ class Container
     public function setConfig(Config $config)
     {
         $this->config = $config;
+        return $this;
+    }
+
+    /**
+     * @return HostConfig
+     */
+    public function getHostConfig()
+    {
+        return $this->hostConfig;
+    }
+
+    /**
+     * @param HostConfig $hostConfig
+     * @return $this
+     */
+    public function setHostConfig(HostConfig $hostConfig)
+    {
+        $this->hostConfig = $hostConfig;
         return $this;
     }
 

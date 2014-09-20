@@ -43,10 +43,11 @@ JSON;
         /** @var Container $container */
         $container = $container;
 
-        $stdobj = json_decode($this->template);
-        $stdobj->Id = $container->getId();
-        $stdobj->Config = $container->getConfig()->toArray();
-        return (array) $stdobj;
+        $stdObj = json_decode($this->template);
+        $stdObj->Id = $container->getId();
+        $stdObj->Config = $container->getConfig()->toArray();
+        $stdObj->HostConfig = $container->getHostConfig()->toArray();
+        return (array) $stdObj;
     }
 
     /**

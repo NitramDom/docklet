@@ -12,24 +12,144 @@ namespace Docklet\Container;
 
 class HostConfig
 {
-    /*
-                 "HostConfig": {
-                     "Binds": null,
-                     "ContainerIDFile": "",
-                     "LxcConf": [],
-                     "Privileged": false,
-                     "PortBindings": {
-                        "80/tcp": [
-                            {
-                                "HostIp": "0.0.0.0",
-                                "HostPort": "49153"
-                            }
-                        ]
-                     },
-                     "Links": ["/name:alias"],
-                     "PublishAllPorts": false,
-                     "CapAdd: ["NET_ADMIN"],
-                     "CapDrop: ["MKNOD"]
-                 }
+    protected $binds = null;
+    protected $capAdd = array();
+    protected $capDrop = array();
+    protected $containerIdFile = '';
+    protected $links = array();
+    protected $lxcConf = array();
+    protected $portBindings = null;
+    protected $privileged = false;
+    protected $publishAllPorts = false;
+
+    public function getBinds()
+    {
+        return $this->binds;
+    }
+
+    public function getContainerIdFile()
+    {
+        return $this->containerIdFile;
+    }
+
+    public function setContainerIdFile($containerIdFile)
+    {
+        $this->containerIdFile = $containerIdFile;
+    }
+
+    public function getLxcConf()
+    {
+        return $this->lxcConf;
+    }
+
+    public function setLxcConf($lxcConf)
+    {
+        $this->lxcConf = $lxcConf;
+    }
+
+    public function getPrivileged()
+    {
+        return $this->privileged;
+    }
+
+    public function setPrivileged($privileged)
+    {
+        $this->privileged = $privileged;
+    }
+
+    public function getCapAdd()
+    {
+        return $this->capAdd;
+    }
+
+    public function setCapAdd($capAdd)
+    {
+        $this->capAdd = $capAdd;
+    }
+
+    public function getCapDrop()
+    {
+        return $this->capDrop;
+    }
+
+    public function setCapDrop($capDrop)
+    {
+        $this->capDrop = $capDrop;
+    }
+
+    public function getLinks()
+    {
+        return $this->links;
+    }
+
+    public function addLink($name, $alias)
+    {
+        $this->links[] = "$name:$alias";
+    }
+
+    public function getPortBindings()
+    {
+        return $this->portBindings;
+    }
+
+    public function addPortBinding($portBinding)
+    {
+        $this->portBindings[] = $portBinding;
+    }
+
+    public function getPublishAll()
+    {
+        return $this->publishAllPorts;
+    }
+
+    public function setPublishAll($publishAll)
+    {
+        $this->publishAllPorts = $publishAll;
+    }
+
+    /****************************************************************/
+
+    public function toArray()
+    {
+        return $data = (new HostConfigHydrator())->extract($this);
+    }
+
+    /**
+     * Returns a host config object. There's no internal implementation yet
+     * for the deserialization and thus an empty host config will be returned.
+     *
+     * @param array $data
+     *
+     * @return HostConfig
      */
+    public function fromArray(array $data)
+    {
+        $config = new HostConfig();
+        return (new HostConfigHydrator())->hydrate($data, $config);
+    }
+
+    /**
+     * Returns this entity as a JSON.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray());
+    }
+
+    /**
+     * Returns a host config object. There's no internal implementation yet
+     * for the deserialization and thus an empty container will be returned.
+     *
+     * @param string $json
+     *
+     * @return Config
+     */
+    public function fromJson($json)
+    {
+        // convert the json to an associative array
+        $data = json_decode($json, true);
+        return $this->fromArray($data);
+    }
 }
