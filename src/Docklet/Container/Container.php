@@ -218,7 +218,7 @@ class Container
      */
     public function toJson()
     {
-        $data = (new Hydrator())->extract($this);
+        $data = (new ContainerHydrator())->extract($this);
         return json_encode($data);
     }
 
@@ -239,6 +239,6 @@ class Container
         // during the hydration
         $container = @new Container('');
         
-        return (new Hydrator())->hydrate($data, $container);
+        return (new ContainerHydrator())->hydrate($data, $container);
     }
 }
