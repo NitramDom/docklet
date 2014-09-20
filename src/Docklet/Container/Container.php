@@ -48,11 +48,11 @@ class Container
      * @param boolean $interactive
      * @param boolean $sigProxy
      */
-    public function __construct($image, $command = '', $ttyMode = false, $interactive = false, $sigProxy = true)
+    public function __construct($image = '', $command = '', $ttyMode = false, $interactive = false, $sigProxy = true)
     {
-        if (! $image) {
-            trigger_error('No image provided.');
-        }
+//        if (! $image) {
+//            trigger_error('No image provided.');
+//        }
 
         $this->image = $image;
         $this->commands[] = $command;
