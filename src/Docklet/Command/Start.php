@@ -10,6 +10,7 @@
 namespace Docklet\Command;
 
 use Docklet\Container\Container;
+use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Http\Response;
 
@@ -30,7 +31,8 @@ class Start extends AbstractCommand
         $this->container = $container;
         $this->setMethod(Request::METHOD_POST);
         $this->setCommand('containers/' . $container->getId() . '/start');
-//        $this->setContent($container->getHostConfig()->toJson());
+        $this->setHeaders((new Headers())->fromString('Content-Type: application/json'));
+        $this->setContent($container->getHostConfig()->toJson());
     }
 
     /**

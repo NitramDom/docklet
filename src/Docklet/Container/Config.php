@@ -14,6 +14,8 @@ use Docklet\Container\Hydrator\ConfigHydrator;
 
 class Config
 {
+    protected $attachStdOut = false;
+    protected $attachStdErr = false;
     protected $commands = array();
     protected $exposedPorts = array();
     protected $host = '';
@@ -38,6 +40,26 @@ class Config
                 $this->addCommand($cmd);
             }
         }
+    }
+
+    public function getAttachStdOut()
+    {
+        return $this->attachStdOut;
+    }
+
+    public function setAttachStdOut($flag)
+    {
+        $this->attachStdOut = $flag;
+    }
+
+    public function getAttachStdErr()
+    {
+        return $this->attachStdErr;
+    }
+
+    public function setAttachStdErr($flag)
+    {
+        $this->attachStdErr = $flag;
     }
 
     /**
@@ -79,7 +101,7 @@ class Config
      */
     public function addExposedPort($port)
     {
-        $this->exposedPorts[] = $port;
+        $this->exposedPorts[$port] = new \stdClass();
         return $this;
     }
 

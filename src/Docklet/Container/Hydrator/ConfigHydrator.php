@@ -10,6 +10,7 @@
 namespace Docklet\Container\Hydrator;
 
 
+use Docklet\Container\Config;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
 class ConfigHydrator extends AbstractHydrator
@@ -24,8 +25,8 @@ class ConfigHydrator extends AbstractHydrator
     "CpuShares": 0,
     "Cpuset": "",
     "AttachStdin": false,
-    "AttachStdout": true,
-    "AttachStderr": true,
+    "AttachStdout": false,
+    "AttachStderr": false,
     "PortSpecs": null,
     "ExposedPorts": {},
     "Tty": false,
@@ -54,12 +55,16 @@ JSON;
         /** @var Config $config */
         $config = $config;
 
-        $stdobj = json_decode($this->template);
-        $stdobj->Hostname = $config->getHost();
-        $stdobj->Image = $config->getImage();
-        $stdobj->Tty = $config->getTtyMode();
-        $stdobj->Cmd = $config->getCommands();
-        return (array) $stdobj;
+        $stdObj = json_decode($this->template);
+        $stdObj->Hostname = $config->getHost();
+        $stdObj->Image = $config->getImage();
+        $stdObj->Tty = $config->getTtyMode();
+        $stdObj->Cmd = $config->getCommands();
+        $stdObj->ExposedPorts = $config->getExposedPorts();
+        $stdObj->AttachStdout = $config->getAttachStdOut();
+        $stdObj->AttachStderr = $config->getAttachStdErr();
+
+        return (array) $stdObj;
     }
 
     /**

@@ -40,11 +40,25 @@ class Run extends AbstractCommand
     public function __construct(RunOptions $options)
     {
         $this->options = $options;
-        $config = new Config($options->image, $options->command);
 
         $container = new Container();
+
+        $config = new Config($options->image, $options->command);
+        $hostConfig = new HostConfig();
+
+        foreach ($options->portBindings as $key => $binding) {
+            $hostConfig->addPortBinding($key, $binding[0]);
+            $config->addExposedPort($key);
+        }
+
+        if (!$options->daemon) {
+            $config->setAttachStdout(true);
+            $config->setAttachStderr(true);
+        }
+
         $container->setConfig($config);
-        $container->setHostConfig(new HostConfig());
+        $container->setHostConfig($hostConfig);
+
         $this->container = $container;
     }
 

@@ -33,10 +33,35 @@ class RunOptions
     public $image = '';
     public $command = '';
     public $volumes = array();
+    public $portBindings = array();
 
     public function __call($method, $params)
     {
         $this->$method = $params[0];
+        return $this;
+    }
+
+    /**
+     * @param $containerPort
+     * @param $hostPort
+     * @param $hostIp
+     * @return $this
+     */
+    public function portBinding($containerPort, $hostPort, $hostIp = '')
+    {
+        if (is_numeric($containerPort)) {
+            $containerPort .= '/tcp';
+        }
+
+        if (!$hostPort && !$hostIp) {
+            // @todo throw an exception
+        }
+
+        $this->portBindings[$containerPort][] = array(
+            'HostIp'   => $hostIp,
+            'HostPort' => $hostPort
+        );
+
         return $this;
     }
 }

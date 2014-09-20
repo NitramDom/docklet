@@ -94,9 +94,9 @@ class HostConfig
         return $this->portBindings;
     }
 
-    public function addPortBinding($portBinding)
+    public function addPortBinding($containerPort, $hostPort)
     {
-        $this->portBindings[] = $portBinding;
+        $this->portBindings[$containerPort][] = $hostPort;
     }
 
     public function getPublishAll()
