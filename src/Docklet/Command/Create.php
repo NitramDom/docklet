@@ -54,9 +54,14 @@ class Create extends AbstractCommand
     {
         if ($obj = json_decode(parent::postExecute($response))) {
             $this->container->setId($obj->Id);
-            return $this->container->toJson();
         }
 
         // @todo: throw an exception, we should have got the ID here
+
+        if ($returnContainer) {
+            return $this->container;
+        } else {
+            return $this->container->toJson();
+        }
     }
 }
