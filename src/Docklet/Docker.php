@@ -27,6 +27,20 @@ class Docker extends Client implements DockerInterface
     /** @var DockerInterface */
     protected static $instance = null;
 
+    /**
+     * Creates a new Docker instance. It can be provided with a host
+     * either by specifying the host parameter or by setting the environment
+     * variable DOCKER_HOST on your system.
+     *
+     * Docker hosts look like:
+     *
+     * <ul>
+     *   <li>unix:///var/run/docker.sock</li>
+     *   <li>tcp://127.0.0.1:9999</li>
+     * </ul>
+     *
+     * @param string $host
+     */
     public function __construct($host = '')
     {
         if (getenv('DOCKER_HOST')) {
@@ -44,7 +58,7 @@ class Docker extends Client implements DockerInterface
             'timeout'      => 30
         ));
 
-        $json = $this->exec(new Version());
+        $json = $this->exec(new Version(), true);
         $versions = json_decode($json);
         $this->version = 'v'. $versions->ApiVersion;
 
@@ -57,9 +71,15 @@ class Docker extends Client implements DockerInterface
         static::$instance = $this;
     }
 
-    public function exec(CommandInterface $command)
+    /**
+     * @param CommandInterface $command
+     * @param bool             $noVersion the request should not contain the version part
+     *
+     * @return string
+     */
+    public function exec(CommandInterface $command, $noVersion = false)
     {
-        $request = $this->buildRequest($command);
+        $request = $this->buildRequest($command, $noVersion);
         $response = $this->send($request);
 
         // @todo: Future feature, ACL support or simply other plugins doing stuff here
@@ -73,22 +93,32 @@ class Docker extends Client implements DockerInterface
     }
 
     /**
+     * Assembles the request URI string from a given command.
+     *
      * @param CommandInterface $command
+     * @param boolean          $noVersion the request should not contain the version part
      *
      * @return \Zend\Http\Request
      */
-    public function buildRequest(CommandInterface $command)
+    public function buildRequest(CommandInterface $command, $noVersion = false)
     {
         $request = $command->execute();
 
-        $uri = array(
-            $this->host . ':',
-            $this->version,
-            $request->getUri()->toString()
-        );
+        $uri = array();
 
-        $request->setUri(join('/', $uri));
-        return $request;
+        if (preg_match('/^unix/', $this->host)) {
+            $uri[] = $this->host . ':';
+        } else {
+            $uri[] = $this->host;
+        }
+
+        if (!$noVersion) {
+            $uri[] = $this->version;
+        }
+
+        $uri[] = $request->getUri()->toString();
+
+        return $request->setUri(join('/', $uri));
     }
 
     //****************************************************************
