@@ -242,7 +242,7 @@ class Container
     public function toJson()
     {
         $data = (new ContainerHydrator())->extract($this);
-        return json_encode($data);
+        return json_encode($data, JSON_UNESCAPED_SLASHES);
     }
 
     /**
