@@ -66,5 +66,7 @@ $json = $docker->run($options);
 
 // 4. Output the container ID
 $stdObj = json_decode($json);
-echo $stdObj->Id;
+
+// 5. Stop the container after 10 seconds
+$docker->stop($stdObj->Id, 10);
 ```

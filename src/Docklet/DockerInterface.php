@@ -17,5 +17,6 @@ interface DockerInterface
     public function images();
     public function ps();
     public function run(RunOptions $options);
+    public function stop($id, $wait = 10);
     public function version();
 } 

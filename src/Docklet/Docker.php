@@ -15,6 +15,7 @@ use Docklet\Command\Images;
 use Docklet\Command\Options\RunOptions;
 use Docklet\Command\Ps;
 use Docklet\Command\Run;
+use Docklet\Command\Stop;
 use Docklet\Command\Version;
 use Zend\Http\Client;
 use Zend\Http\Response;
@@ -154,6 +155,11 @@ class Docker extends Client implements DockerInterface
     public function run(RunOptions $options)
     {
         return $this->exec(new Run($options));
+    }
+
+    public function stop($id, $wait = 10)
+    {
+        return $this->exec(new Stop($id, $wait));
     }
 
     public function version()
