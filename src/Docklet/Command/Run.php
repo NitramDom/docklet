@@ -12,6 +12,7 @@ namespace Docklet\Command;
 use Docklet\Container\Config;
 use Docklet\Container\Container;
 use Docklet\Container\HostConfig;
+use Docklet\Docker;
 use Zend\Http\Response;
 
 /**
@@ -22,13 +23,18 @@ use Zend\Http\Response;
  */
 class Run extends AbstractCommand
 {
+    /** @var \Docklet\Container\Container */
     protected $container = null;
+
     /** @var Create */
     protected $create = null;
 
+//    /** @var Start */
+//    protected $start = null;
+
     public function __construct(Config $config)
     {
-        $container = new Container('');
+        $container = new Container();
         $container->setConfig($config);
         $container->setHostConfig(new HostConfig());
         $this->container = $container;
@@ -54,15 +60,24 @@ class Run extends AbstractCommand
         }
 
         /** @var Container $container */
-        $container = $this->create->postExecute($response, true);
+        $this->container = $this->create->postExecute($response, true);
 
         // @todo: start the container
         // @todo: return the container ID if in detached mode
 
+        $start = new Start($this->container);
+
+        /** @var Docker $docker */
+        $docker = Docker::getInstance();
+        $request = $docker->buildRequest($start);
+
+        /** @var Response $response */
+        $response = $docker->dispatch($request);
+
         if ($returnContainer) {
-            return $container;
+            return $this->container;
         } else {
-            return $container->toJson();
+            return $this->container->toJson();
         }
     }
 } 
