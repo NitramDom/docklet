@@ -10,6 +10,8 @@
 namespace Docklet\Container;
 
 
+use Docklet\Container\Hydrator\ContainerHydrator;
+
 class Container
 {
     protected $id = '';

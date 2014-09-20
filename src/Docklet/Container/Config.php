@@ -10,6 +10,8 @@
 namespace Docklet\Container;
 
 
+use Docklet\Container\Hydrator\ConfigHydrator;
+
 class Config
 {
     protected $commands = array();

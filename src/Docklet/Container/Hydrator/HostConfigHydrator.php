@@ -7,7 +7,7 @@
  * @license   http://slopjong.github.io/docklet/license/new-bsd New BSD License
  */
 
-namespace Docklet\Container;
+namespace Docklet\Container\Hydrator;
 
 
 use Zend\Stdlib\Hydrator\AbstractHydrator;

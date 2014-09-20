@@ -10,6 +10,8 @@
 namespace Docklet\Container;
 
 
+use Docklet\Container\Hydrator\HostConfigHydrator;
+
 class HostConfig
 {
     protected $binds = null;
