@@ -26,6 +26,9 @@ class Container
     /** @var State   */
     protected $state = null;
 
+    /** @var array unofficial property that collects the stdout output from the start command */
+    protected $lastCommandResults = array();
+
     protected $image = '';
 
     /** @var NetworkSettings */
@@ -148,6 +151,24 @@ class Container
     public function setInteractive($interactive)
     {
         $this->interactive = $interactive;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLastCommandResults()
+    {
+        return $this->lastCommandResults;
+    }
+
+    /**
+     * @param $result
+     * @return $this
+     */
+    public function addLastCommandResult($result)
+    {
+        $this->lastCommandResults[] = $result;
         return $this;
     }
 

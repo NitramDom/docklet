@@ -23,6 +23,7 @@ class ContainerHydrator extends AbstractHydrator
          "Config": {},
          "State": {},
          "Image": "",
+         "LastCmdOutput": [],
          "NetworkSettings": {},
          "SysInitPath": "",
          "ResolvConfPath": "",
@@ -46,6 +47,7 @@ JSON;
         $stdObj = json_decode($this->template);
         $stdObj->Id = $container->getId();
         $stdObj->Config = $container->getConfig()->toArray();
+        $stdObj->LastCmdOutput = $container->getLastCommandResults();
         $stdObj->HostConfig = $container->getHostConfig()->toArray();
         return (array) $stdObj;
     }
