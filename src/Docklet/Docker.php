@@ -16,7 +16,6 @@ use Docklet\Command\Ps;
 use Docklet\Command\Run;
 use Docklet\Command\Version;
 use Docklet\Container\Config;
-use Docklet\Container\Container;
 use Zend\Http\Client;
 use Zend\Http\Response;
 
@@ -24,6 +23,8 @@ class Docker extends Client implements DockerInterface
 {
     protected $host;
     protected $version;
+
+    /** @var DockerInterface */
     protected static $instance = null;
 
     public function __construct($host = '')
@@ -58,15 +59,7 @@ class Docker extends Client implements DockerInterface
 
     public function exec(CommandInterface $command)
     {
-        $request = $command->execute();
-
-        $uri = array(
-            $this->host . ':',
-            $this->version,
-            $request->getUri()->toString()
-        );
-
-        $request->setUri(join('/', $uri));
+        $request = $this->buildRequest($command);
         $response = $this->send($request);
 
         // @todo: Future feature, ACL support or simply other plugins doing stuff here
@@ -79,6 +72,25 @@ class Docker extends Client implements DockerInterface
         return $command->postExecute($response);
     }
 
+    /**
+     * @param CommandInterface $command
+     *
+     * @return \Zend\Http\Request
+     */
+    public function buildRequest(CommandInterface $command)
+    {
+        $request = $command->execute();
+
+        $uri = array(
+            $this->host . ':',
+            $this->version,
+            $request->getUri()->toString()
+        );
+
+        $request->setUri(join('/', $uri));
+        return $request;
+    }
+
     //****************************************************************
     // Below are the command proxy functions that are considered implemented/stable.
 
@@ -88,7 +100,7 @@ class Docker extends Client implements DockerInterface
      *
      * @param string $host
      *
-     * @return null
+     * @return DockerInterface
      */
     public static function getInstance($host = '')
     {
