@@ -10,12 +10,12 @@
 namespace Docklet;
 
 
-use Docklet\Container\Config;
+use Docklet\Command\Options\RunOptions;
 
 interface DockerInterface
 {
     public function images();
     public function ps();
-    public function run(Config $config);
+    public function run(RunOptions $options);
     public function version();
 } 

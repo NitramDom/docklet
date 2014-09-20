@@ -10,6 +10,7 @@
 namespace Docklet\Command;
 
 
+use Docklet\Command\Options\RunOptions;
 use Docklet\Container\Config;
 use Docklet\Container\Container;
 use Docklet\Container\HostConfig;
@@ -30,8 +31,17 @@ class Run extends AbstractCommand
     /** @var Create */
     protected $create = null;
 
-    public function __construct(Config $config)
+    /** @var RunOptions */
+    protected $options = null;
+
+    /**
+     * @param RunOptions $options
+     */
+    public function __construct(RunOptions $options)
     {
+        $this->options = $options;
+        $config = new Config($options->image, $options->command);
+
         $container = new Container();
         $container->setConfig($config);
         $container->setHostConfig(new HostConfig());
@@ -63,8 +73,12 @@ class Run extends AbstractCommand
         $response = $this->start();
 
         if ($response->getStatusCode() === Response::STATUS_CODE_204) {
-            $response = $this->attach();
-            $this->container->addLastCommandResult($response->getContent());
+            if (! $this->options->daemon) {
+                $response = $this->attach();
+                $this->container->addLastCommandResult($response->getContent());
+            }
+        } else {
+            // @todo throw an exception
         }
 
         if ($returnContainer) {
@@ -73,6 +87,20 @@ class Run extends AbstractCommand
             return $this->container->toJson();
         }
     }
+
+    //****************************************************************
+    // Assemble a run configuration
+
+    public static function options($image, $command)
+    {
+        $options = new RunOptions();
+        $options->image($image);
+        $options->command($command);
+        return $options;
+    }
+
+    //****************************************************************
+    // Helpers
 
     /**
      * Start the container.

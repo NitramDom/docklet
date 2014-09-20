@@ -12,10 +12,10 @@ namespace Docklet;
 
 use Docklet\Command\CommandInterface;
 use Docklet\Command\Images;
+use Docklet\Command\Options\RunOptions;
 use Docklet\Command\Ps;
 use Docklet\Command\Run;
 use Docklet\Command\Version;
-use Docklet\Container\Config;
 use Zend\Http\Client;
 use Zend\Http\Response;
 
@@ -151,9 +151,9 @@ class Docker extends Client implements DockerInterface
         return $this->exec(new Ps());
     }
 
-    public function run(Config $config)
+    public function run(RunOptions $options)
     {
-        return $this->exec(new Run($config));
+        return $this->exec(new Run($options));
     }
 
     public function version()
