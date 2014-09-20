@@ -13,9 +13,11 @@ namespace Docklet;
 use Docklet\Command\CommandInterface;
 use Docklet\Command\Images;
 use Docklet\Command\Options\RunOptions;
+use Docklet\Command\Pause;
 use Docklet\Command\Ps;
 use Docklet\Command\Run;
 use Docklet\Command\Stop;
+use Docklet\Command\Unpause;
 use Docklet\Command\Version;
 use Zend\Http\Client;
 use Zend\Http\Response;
@@ -160,6 +162,16 @@ class Docker extends Client implements DockerInterface
     public function stop($id, $wait = 10)
     {
         return $this->exec(new Stop($id, $wait));
+    }
+
+    public function pause($id)
+    {
+        return $this->exec(new Pause($id));
+    }
+
+    public function unpause($id)
+    {
+        return $this->exec(new Unpause($id));
     }
 
     public function version()
