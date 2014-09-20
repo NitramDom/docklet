@@ -11,6 +11,7 @@ namespace Docklet\Command;
 
 use Docklet\Container\Config;
 use Docklet\Container\Container;
+use Docklet\Container\HostConfig;
 use Zend\Http\Response;
 
 /**
@@ -22,11 +23,14 @@ use Zend\Http\Response;
 class Run extends AbstractCommand
 {
     protected $container = null;
+    /** @var Create */
+    protected $create = null;
 
     public function __construct(Config $config)
     {
         $container = new Container('');
         $container->setConfig($config);
+        $container->setHostConfig(new HostConfig());
         $this->container = $container;
     }
 
@@ -35,23 +39,30 @@ class Run extends AbstractCommand
      */
     public function execute()
     {
-        $create = new Create($this->container);
-        return $create->execute();
+        $this->create = new Create($this->container);
+        return $this->create->execute();
     }
 
     /**
      * @inheritdoc
      */
-    public function postExecute(Response $response)
+    public function postExecute(Response $response, $returnContainer = false)
     {
         if ($response->getStatusCode() === Response::STATUS_CODE_404) {
             // @todo: the image wasn't found, try to pull it
             //        and throw an exception if that wasn't found too
         }
 
+        /** @var Container $container */
+        $container = $this->create->postExecute($response, true);
+
         // @todo: start the container
         // @todo: return the container ID if in detached mode
 
-        return $response->getBody();
+        if ($returnContainer) {
+            return $container;
+        } else {
+            return $container->toJson();
+        }
     }
 } 
