@@ -82,7 +82,7 @@ class Config
     {
         if (!is_string($command)) {
             trigger_error("Command not a string");
-            return;
+            return $this;
         }
         $this->commands[] = $command;
         return $this;
