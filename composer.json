@@ -6,6 +6,9 @@
         "zendframework/zend-uri": "dev-master",
         "zendframework/zend-http": "dev-master"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.37"
+    },
     "autoload": {
         "psr-0": {
             "Docklet\\": "src/"
