@@ -30,4 +30,4 @@ $container = $docker->run($options);
 echo $container->getId();
 
 // 5. Stop the container after 10 seconds
-$docker->stop($stdObj->Id, 10);
+$docker->stop($container->getId(), 10);
