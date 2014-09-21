@@ -48,9 +48,9 @@ class Run extends AbstractCommand
 
         $config->setEnvironmentVars($options->environmentVariables);
 
-        foreach ($options->portBindings as $key => $binding) {
-            $hostConfig->addPortBinding($key, $binding[0]);
-            $config->addExposedPort($key);
+        foreach ($options->portBindings as $port) {
+            $hostConfig->addPortBinding($port);
+            $config->addExposedPort($port);
         }
 
         if (!$options->daemon) {

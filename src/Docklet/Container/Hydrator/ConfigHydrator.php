@@ -10,6 +10,7 @@
 namespace Docklet\Container\Hydrator;
 
 
+use Docklet\Container\Port;
 use Docklet\Container\Config;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
@@ -64,6 +65,15 @@ JSON;
         $stdObj->AttachStdout = $config->getAttachStdOut();
         $stdObj->AttachStderr = $config->getAttachStdErr();
         $stdObj->Env = $config->getEnvironmentVars();
+
+        $stdObj->ExposedPorts = array();
+        /** @var Port $port */
+        foreach ($config->getExposedPorts() as $port) {
+            $stdObj->ExposedPorts = array_merge(
+                $stdObj->ExposedPorts,
+                $port->toExposedPorts()
+            );
+        }
 
         return (array) $stdObj;
     }

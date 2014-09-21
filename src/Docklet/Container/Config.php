@@ -10,6 +10,7 @@
 namespace Docklet\Container;
 
 
+use Docklet\Container\Port;
 use Docklet\Container\Hydrator\ConfigHydrator;
 
 class Config
@@ -116,12 +117,12 @@ class Config
     }
 
     /**
-     * @param string $port
+     * @param Port $port
      * @return $this
      */
-    public function addExposedPort($port)
+    public function addExposedPort(Port $port)
     {
-        $this->exposedPorts[$port] = new \stdClass();
+        $this->exposedPorts[] = $port;
         return $this;
     }
 

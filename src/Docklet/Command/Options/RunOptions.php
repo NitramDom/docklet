@@ -10,7 +10,7 @@
 namespace Docklet\Command\Options;
 
 
-use Zend\Debug\Debug;
+use Docklet\Container\Port;
 
 /**
  * <strong>The</strong> run options.
@@ -48,22 +48,23 @@ class RunOptions
      * @param $containerPort
      * @param $hostPort
      * @param $hostIp
+     * @param $protocol
+     *
      * @return $this
      */
-    public function portBinding($containerPort, $hostPort, $hostIp = '')
+    public function portBinding($containerPort, $hostPort, $hostIp = '', $protocol = 'tcp')
     {
-        if (is_numeric($containerPort)) {
-            $containerPort .= '/tcp';
-        }
-
         if (!$hostPort && !$hostIp) {
             // @todo throw an exception
         }
 
-        $this->portBindings[$containerPort][] = array(
-            'HostIp'   => $hostIp,
-            'HostPort' => $hostPort
-        );
+        $host = '$hostPort:';
+        if ($hostIp) {
+            $host = $hostIp . ':' . $host;
+        }
+
+        // [[hostIp:][hostPort]:]port[/protocol]
+        $this->portBindings[] = new Port($host . "$containerPort/$protocol");
 
         return $this;
     }

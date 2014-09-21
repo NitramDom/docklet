@@ -10,6 +10,7 @@
 namespace Docklet\Container;
 
 
+use Docklet\Container\Port;
 use Docklet\Container\Hydrator\HostConfigHydrator;
 
 class HostConfig
@@ -94,9 +95,9 @@ class HostConfig
         return $this->portBindings;
     }
 
-    public function addPortBinding($containerPort, $hostPort)
+    public function addPortBinding(Port $port)
     {
-        $this->portBindings[$containerPort][] = $hostPort;
+        $this->portBindings[] = $port;
     }
 
     public function getPublishAll()

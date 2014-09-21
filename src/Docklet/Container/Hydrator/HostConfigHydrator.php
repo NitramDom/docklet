@@ -10,6 +10,7 @@
 namespace Docklet\Container\Hydrator;
 
 
+use Docklet\Container\Port;
 use Docklet\Container\HostConfig;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
@@ -65,6 +66,15 @@ JSON;
 
         if (count($hostConfig->getCapDrop())) {
             $stdObj->CapDrop = $hostConfig->getCapDrop();
+        }
+
+        $stdObj->PortBindings = array();
+        /** @var Port $port */
+        foreach ($hostConfig->getPortBindings() as $port) {
+            $stdObj->PortBindings= array_merge(
+                $stdObj->PortBindings,
+                $port->toSpec()
+            );
         }
 
         return (array) $stdObj;
