@@ -10,7 +10,7 @@
 namespace Docklet;
 
 
-use Docklet\Command\Options\RunOptions;
+use Docklet\Command\Run\RunOptions;
 
 interface DockerInterface
 {

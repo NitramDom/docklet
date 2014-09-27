@@ -11,15 +11,16 @@ namespace Docklet;
 
 
 use Docklet\Command\CommandInterface;
-use Docklet\Command\Images;
-use Docklet\Command\Options\RunOptions;
-use Docklet\Command\Pause;
-use Docklet\Command\Ps;
-use Docklet\Command\Restart;
-use Docklet\Command\Run;
-use Docklet\Command\Stop;
-use Docklet\Command\Unpause;
-use Docklet\Command\Version;
+use Docklet\Command\Images\Images;
+use Docklet\Command\Restart\RestartOptions;
+use Docklet\Command\Run\RunOptions;
+use Docklet\Command\Pause\Pause;
+use Docklet\Command\Ps\Ps;
+use Docklet\Command\Restart\Restart;
+use Docklet\Command\Run\Run;
+use Docklet\Command\Stop\Stop;
+use Docklet\Command\Unpause\Unpause;
+use Docklet\Command\Version\Version;
 use Zend\Http\Client;
 use Zend\Http\Response;
 
@@ -162,7 +163,9 @@ class Docker extends Client implements DockerInterface
 
     public function restart($id, $wait = 10)
     {
-        return $this->exec(new Restart($id, $wait));
+        $options = new RestartOptions();
+        $options->containerId($id)->wait($wait);
+        return $this->exec(new Restart($options));
     }
 
     public function stop($id, $wait = 10)

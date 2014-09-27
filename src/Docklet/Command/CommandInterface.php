@@ -10,7 +10,8 @@
 namespace Docklet\Command;
 
 
-use Docklet\Command\Exception\BadCommandException;
+use Docklet\Container\Container;
+use Docklet\Exception\BadCommandException;
 use Zend\Http\Request;
 use Zend\Http\Response;
 
@@ -32,7 +33,7 @@ interface CommandInterface
      *
      * @param Response  $response
      * @param boolean   $returnContainer
-     * @return string
+     * @return string|Container
      */
     public function postExecute(Response $response, $returnContainer = false);
 } 

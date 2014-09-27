@@ -10,6 +10,9 @@
 namespace Docklet\Container\Hydrator;
 
 
+use Docklet\Container\HostConfig;
+use Docklet\Container\Config;
+use Docklet\Container\Container;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
 class ContainerHydrator extends AbstractHydrator
@@ -46,9 +49,16 @@ JSON;
 
         $stdObj = json_decode($this->template);
         $stdObj->Id = $container->getId();
-        $stdObj->Config = $container->getConfig()->toArray();
         $stdObj->LastCmdOutput = $container->getLastCommandResults();
-        $stdObj->HostConfig = $container->getHostConfig()->toArray();
+
+        if ($container->getConfig() instanceof Config) {
+            $stdObj->Config = $container->getConfig()->toArray();
+        }
+
+        if ($container->getHostConfig() instanceof HostConfig) {
+            $stdObj->HostConfig = $container->getHostConfig()->toArray();
+        }
+
         return (array) $stdObj;
     }
 

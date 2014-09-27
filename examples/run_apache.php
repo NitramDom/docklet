@@ -3,7 +3,7 @@
 include('../vendor/autoload.php');
 
 use Docklet\Docker;
-use Docklet\Command\Run;
+use Docklet\Command\Run\Run;
 
 // 1. Create a new Docker client
 //$docker = new Docker('unix:///var/run/docker.sock');

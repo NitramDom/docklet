@@ -10,7 +10,7 @@
 namespace Docklet\Command;
 
 
-use Docklet\Command\Exception\BadCommandException;
+use Docklet\Exception\BadCommandException;
 use Zend\Http\Request;
 use Zend\Http\Response;
 
