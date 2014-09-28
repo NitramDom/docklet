@@ -2,6 +2,7 @@
     <testsuites>
         <testsuite name="Docklet Test Suite">
             <directory>./DockletTest</directory>
+            <exclude>./DockletTest/DockerTestCase.php</exclude>
         </testsuite>
     </testsuites>
 </phpunit>
