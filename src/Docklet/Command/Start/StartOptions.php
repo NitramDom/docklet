@@ -8,6 +8,7 @@
  */
 
 namespace Docklet\Command\Start;
+use Docklet\Container\Config;
 
 
 /**
@@ -15,11 +16,14 @@ namespace Docklet\Command\Start;
  *
  * @package Docklet\Command\Start
  * @method StartOptions containerId(string $id)
+ * @method StartOptions hostConfig(Config $config)
+ * @method StartOptions name(string $name)
  */
 class StartOptions
 {
     public $containerId = '';
     public $hostConfig = null;
+    public $name = '';
 
     public function __call($method, $params)
     {

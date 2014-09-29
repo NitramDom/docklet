@@ -24,6 +24,7 @@ namespace Docklet\Command\Run;
  * @method RunOptionsInterface returnContainer(boolean $flag)
  * @method RunOptionsInterface environmentVariable($name, $value)
  * @method RunOptionsInterface portBinding($containerPort, $hostPort, $hostIp = '', $protocol = 'tcp')
+ * @method RunOptionsInterface name(string $name)
  */
 interface RunOptionsInterface
 {

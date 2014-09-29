@@ -45,8 +45,10 @@ class Start extends AbstractCommand
                 /** @var StartOptions $options */
                 $options = $options;
                 $this->container = new Container();
-                $this->container->setId($options->containerId);
-                $this->container->setHostConfig($options->hostConfig);
+                $this->container
+                    ->setId($options->containerId)
+                    ->setHostConfig($options->hostConfig)
+                    ->setName($options->name);
                 break;
 
             default:

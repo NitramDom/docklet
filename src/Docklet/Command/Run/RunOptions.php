@@ -22,6 +22,7 @@ use Docklet\Container\Port;
  * @method RunOptions image(string $image)
  * @method RunOptions command(mixed $command)
  * @method RunOptions volumes(array $volumes)
+ * @method RunOptionsInterface name(string $name)
  * @method RunOptions returnContainer(boolean $flag)
  */
 class RunOptions
@@ -32,6 +33,7 @@ class RunOptions
     public $image = '';
     public $command = '';
     public $environmentVariables = array();
+    public $name = '';
     public $volumes = array();
     public $portBindings = array();
     public $returnContainer = false;

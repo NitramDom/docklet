@@ -61,8 +61,10 @@ class Run extends AbstractCommand
             $config->setAttachStderr(true);
         }
 
-        $container->setConfig($config);
-        $container->setHostConfig($hostConfig);
+        $container
+            ->setConfig($config)
+            ->setHostConfig($hostConfig)
+            ->setName($options->name);
 
         $this->container = $container;
     }
