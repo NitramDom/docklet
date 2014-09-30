@@ -18,6 +18,7 @@ use Docklet\Command\Pause\Pause;
 use Docklet\Command\Ps\Ps;
 use Docklet\Command\Restart\Restart;
 use Docklet\Command\Run\Run;
+use Docklet\Command\Run\RunOptionsInterface;
 use Docklet\Command\Stop\Stop;
 use Docklet\Command\Unpause\Unpause;
 use Docklet\Command\Version\Version;
@@ -156,7 +157,7 @@ class Docker extends Client implements DockerInterface
         return $this->exec(new Ps());
     }
 
-    public function run(RunOptions $options)
+    public function run(RunOptionsInterface $options)
     {
         return $this->exec(new Run($options));
     }

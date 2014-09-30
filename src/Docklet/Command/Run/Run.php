@@ -38,9 +38,9 @@ class Run extends AbstractCommand
     protected $options = null;
 
     /**
-     * @param RunOptions $options
+     * @param RunOptionsInterface $options
      */
-    public function __construct(RunOptions $options)
+    public function __construct(RunOptionsInterface $options)
     {
         $this->options = $options;
 
