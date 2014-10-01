@@ -19,13 +19,14 @@ use Docklet\Container\Port;
  *
  * @method RunOptions daemon(boolean $daemon)
  * @method RunOptions ttyMode(boolean $mode)
+ * @method RunOptionsInterface interactive(boolean $interactive)
  * @method RunOptions image(string $image)
  * @method RunOptions command(mixed $command)
  * @method RunOptions volumes(array $volumes)
  * @method RunOptionsInterface name(string $name)
  * @method RunOptions returnContainer(boolean $flag)
  */
-class RunOptions
+class RunOptions implements RunOptionsInterface
 {
     public $daemon = false;
     public $ttyMode = false;
