@@ -20,6 +20,7 @@ class ContainerHydrator extends AbstractHydrator
     protected $template = <<<JSON
     {
          "Id": "",
+         "Name": "",
          "Created": "",
          "Path": "",
          "Args": [],
@@ -49,6 +50,7 @@ JSON;
 
         $stdObj = json_decode($this->template);
         $stdObj->Id = $container->getId();
+        $stdObj->Name = $container->getName();
         $stdObj->LastCmdOutput = $container->getLastCommandResults();
 
         if ($container->getConfig() instanceof Config) {

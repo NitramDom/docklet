@@ -19,7 +19,7 @@ use Docklet\Container\Port;
  *
  * @method RunOptions daemon(boolean $daemon)
  * @method RunOptions ttyMode(boolean $mode)
- * @method RunOptionsInterface interactive(boolean $interactive)
+ * @method RunOptionsInterface interactive(boolean $interactive)HE
  * @method RunOptions image(string $image)
  * @method RunOptions command(mixed $command)
  * @method RunOptions volumes(array $volumes)

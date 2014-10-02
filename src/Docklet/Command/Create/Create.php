@@ -57,6 +57,7 @@ class Create extends AbstractCommand
         $this->setMethod(Request::METHOD_POST);
         $this->setHeaders((new Headers())->fromString('Content-Type: application/json'));
         $this->setCommand('containers/create');
+        $this->getUri()->setQuery(array('name' => $this->container->getName()));
         $this->setContent($this->container->getConfig()->toJson());
     }
 

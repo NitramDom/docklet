@@ -21,7 +21,7 @@ class HostConfig
     protected $containerIdFile = '';
     protected $links = array();
     protected $lxcConf = array();
-    protected $portBindings = null;
+    protected $portBindings = array();
     protected $privileged = false;
     protected $publishAllPorts = false;
 
