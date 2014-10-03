@@ -159,6 +159,52 @@ class RunTest extends DockerTestCase
         static::$removeContainersWithId[] = $container->getId();
     }
 
+    public function testContainerName()
+    {
+        $name = 'docklet_long_name-00000000-0000-0000-0000-000000000000';
+
+        $options = Run::options(static::$image, static::$container_command)
+            ->name($name)
+            ->daemon(true);
+
+        /** @var CommandInterface $command */
+        $command = new Run($options);
+
+        $json = static::$docker->exec($command);
+
+        $stdObj = json_decode($json);
+        $this->assertNotNull($stdObj);
+
+        $information = static::dockerPs();
+        $shortenedId = substr($stdObj->Id, 0, 12);
+
+        $found = preg_match(
+            '/'. $shortenedId .'.*'. $name .'/m',
+            $information
+        );
+
+        $this->assertEquals($name, $stdObj->Name);
+        $this->assertTrue(filter_var($found, FILTER_VALIDATE_BOOLEAN));
+
+        static::$removeContainersWithId[] = $stdObj->Id;
+    }
+
+    public function testRunContainerFromNonExistingImage()
+    {
+        $options = Run::options('exists_not', static::$container_command)
+            ->daemon(true);
+
+        /** @var CommandInterface $command */
+        $command = new Run($options);
+        $json = static::$docker->run($options);
+
+        $stdObj = json_decode($json);
+
+        $this->assertNotNull($stdObj);
+        $this->assertEmpty($stdObj->Id);
+        $this->assertEmpty($stdObj->Name);
+    }
+
     public function testAllowedJsonKeys()
     {
         $options = Run::options(static::$image, static::$container_command)
