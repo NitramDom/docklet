@@ -10,12 +10,13 @@
 namespace Docklet;
 
 
+use Docklet\Command\Ps\PsOptionsInterface;
 use Docklet\Command\Run\RunOptionsInterface;
 
 interface DockerInterface
 {
     public function images();
-    public function ps();
+    public function ps(PsOptionsInterface $options);
     public function run(RunOptionsInterface $options);
     public function restart($id, $wait = 10);
     public function stop($id, $wait = 10);

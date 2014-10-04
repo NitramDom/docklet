@@ -12,6 +12,7 @@ namespace Docklet;
 
 use Docklet\Command\CommandInterface;
 use Docklet\Command\Images\Images;
+use Docklet\Command\Ps\PsOptionsInterface;
 use Docklet\Command\Restart\RestartOptions;
 use Docklet\Command\Run\RunOptions;
 use Docklet\Command\Pause\Pause;
@@ -152,9 +153,9 @@ class Docker extends Client implements DockerInterface
         return $this->exec(new Images());
     }
 
-    public function ps()
+    public function ps(PsOptionsInterface $options = null)
     {
-        return $this->exec(new Ps());
+        return $this->exec(new Ps($options));
     }
 
     public function run(RunOptionsInterface $options)
