@@ -1,7 +1,9 @@
 Docklet
 =======
 
-A docker client for PHP.
+A docker client for PHP. The main goal of this library is to mimic the docker shell client with its command-based API. This allows shell gurus save time by skipping learning a new library API.
+
+Another vision is to make this library cross-version compatible. Use the same PHP docker client with any docker server version. The library `docker-php` is developed and tested against one single docker version. That library relies on a specific version. `docklet`, however, doesn't support cross-version compatibility yet but it has the potential by versioning the commands and its options. As of now `docklet` is developed against API version 0.14 but in future versions `docklet` will detect the server version and make the right API call.
 
 Run `ls` in a container
 -----------------------
