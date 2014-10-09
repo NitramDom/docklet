@@ -14,6 +14,7 @@ use Docklet\Command\CommandInterface;
 use Docklet\Command\Images\Images;
 use Docklet\Command\Ps\PsOptionsInterface;
 use Docklet\Command\Restart\RestartOptions;
+use Docklet\Command\Rm\Rm;
 use Docklet\Command\Run\RunOptions;
 use Docklet\Command\Pause\Pause;
 use Docklet\Command\Ps\Ps;
@@ -173,6 +174,11 @@ class Docker extends Client implements DockerInterface
     public function stop($id, $wait = 10)
     {
         return $this->exec(new Stop($id, $wait));
+    }
+
+    public function rm($id, $force = false)
+    {
+        return $this->exec(new Rm($id, $force));
     }
 
     public function pause($id)

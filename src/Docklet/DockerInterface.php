@@ -20,6 +20,7 @@ interface DockerInterface
     public function run(RunOptionsInterface $options);
     public function restart($id, $wait = 10);
     public function stop($id, $wait = 10);
+    public function rm($id, $force = false);
     public function pause($id);
     public function unpause($id);
     public function version();
