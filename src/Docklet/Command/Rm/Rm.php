@@ -36,7 +36,7 @@ class Rm extends AbstractCommand
     {
         $this->setMethod(Request::METHOD_DELETE);
         $this->setCommand('containers/' . $id);
-        $this->getUri()->setQuery(array('f' => $force));
+        $this->getUri()->setQuery(array('force' => $force));
     }
 
     /**
